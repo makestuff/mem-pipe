@@ -1,0 +1,23 @@
+---------------------------- SDRAM READ/WRITE PIPE -----------------------------
+
+A front-end for the SDRAM controller which allows block reads and writes through
+a pair of 16-bit data-valid-ready pipes. Commands and write-data are sent down
+the cmd pipe and read-data is returned on the rsp pipe. There is an auto-
+increment pointer which is used during read and write operations.
+
+The commands on the cmd pipe look like this:
+
+  CCDD DDDD DDDD DDDD <args>
+
+Where CC:
+
+  00 -> Update pointer with these 14 bits D and the following 16-bits, giving
+        a maximum pointer width of 30 bits
+
+  01 -> Read a block of 16-bit words N given by the 14 bits D and the following
+        16 bits (max block size 2^30). Subsequently, 2N data bytes need to be
+        read from rsp_fifo.
+
+  10 -> Write a block of 16-bit words N given by the 14 bits D and the following
+        16 bits (max block size 2^30). Subsequently, 2N data bytes need to be
+        written to cmd_fifo.
