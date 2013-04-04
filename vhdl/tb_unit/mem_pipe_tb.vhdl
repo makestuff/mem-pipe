@@ -24,7 +24,7 @@ use work.hex_util.all;
 use work.mem_ctrl_pkg.all;
 
 entity mem_pipe_tb is
-end mem_pipe_tb;
+end entity;
 
 architecture behavioural of mem_pipe_tb is
 	-- Clocks
